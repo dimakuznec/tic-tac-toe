@@ -27,20 +27,43 @@ const check = () => {
         [0,4,8],
         [2,4,6]
     ];
-    for (i =0; i < arr.length; i++) {
-       if(
-        boxes [arr[i][0]].innerHTML == 'X' && boxes [arr[i][1]].innerHTML == 'X' && boxes [arr[i][2]].innerHTML == 'X'
+    
+    for (i = 0; i < arr.length; i++) {
+       if (
+        boxes [arr[i][0]].innerHTML == 'X' 
+        && boxes [arr[i][1]].innerHTML == 'X' 
+        && boxes [arr[i][2]].innerHTML == 'X'
+
     ){
+
         result = 'кресеики';
         prepareResult(result);
-    } else if(
-        boxes [arr[i][0]].innerHTML == '0' && boxes [arr[i][1]].innerHTML == '0' && boxes [arr[i][2]].innerHTML == '0'
+
+    } else if (
+        boxes [arr[i][0]].innerHTML == '0' 
+        && boxes [arr[i][1]].innerHTML == '0' 
+        && boxes [arr[i][2]].innerHTML == '0'
     ){
+
         result = 'нолики';
         prepareResult(result);
-    }          
+
+    } else {
+        let draw = true;
+        for (let i in boxes) {
+            if (boxes[i].innerHTML == '') draw = false;
+        }
+        if (draw) {
+            result = 'ничя';
+            prepareResult(result);
+        }
+    }     
   } 
-}
+} 
+     
+       
+ 
+
 
 const prepareResult = winner => {
     contentWrapper.innerHTML = `Победили ${winner} !`;
@@ -57,3 +80,4 @@ const closeModal = () => {
 
 overlay.addEventListener('click', closeModal);
 binClose.addEventListener('click', closeModal);
+draw.addEventListener('check', closeModal);
