@@ -1,117 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-html {
-    box-sizing: border-box;
-    font-size: 16px;
-  }
-  
-  *, *:before, *:after {
-    box-sizing: inherit;
+:root {
+	--bg-color: #e0e5ec;
+	--box-shadow-light: rgba(255, 255, 255, 0.7);
+	--box-shadow-dark: rgba(0, 0, 0, 0.1);
+	--primary-color: #007bff;
+	--secondary-color: #ff6b6b;
+	--text-color: #333;
 }
-  
-  body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-}
-  
-  ol, ul {
-    list-style: none;
-}
-  
-  img {
-    max-width: 100%;
-    height: auto;
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-family: 'Caveat', cursive;
-    color: rgba(49, 44, 44, 0.747);
-  background-color: #548afd;
+	background: var(--bg-color);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	text-align: center;
 }
 
-.header {
-    display: flex;
-    padding-top: 118px;
-    padding-left: 500px;
-    padding-bottom: 148px;
+.page__title {
+	font-size: 32px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: var(--text-color);
+	text-shadow: 2px 2px 4px var(--box-shadow-dark);
 }
 
-.grid-for-input {
-    display: flex;
-    text-align: center;
+/* Счетчик очков */
+.scoreboard {
+	display: flex;
+	justify-content: space-around;
+	width: 300px;
+	padding: 10px;
+	background: var(--bg-color);
+	border-radius: 12px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	margin-bottom: 20px;
 }
 
-.grid {
-    text-align: center;
-    position: absolute;
-    width: 338.71px;
-    height: 338.71px;
-    border: 9.4086px solid #6bf1766e
-
-   
+.scoreboard__x,
+.scoreboard__o {
+	font-size: 20px;
+	font-weight: bold;
+	color: var(--text-color);
 }
 
-#area {
-    width: 320px;
-    height: 320px;
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 20px;    
+/* Контейнер для игры */
+.game-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 15px;
 }
 
-.box {
-width: 100px;
-height: 100px;
-border: 1px solid;
-box-sizing: border-box;
-font-size: 34px;
-display: flex;
-justify-content: center;
-align-items: center;
-border-radius: 20px;
-color: rgb(247, 168, 168);
+/* Поле 3x3 */
+.game-board {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	width: 300px;
 }
 
-#modal-result-wrapper {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  display: none;
+.grid__box {
+	width: 90px;
+	height: 90px;
+	background: var(--bg-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 36px;
+	font-weight: bold;
+	border-radius: 12px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
 }
 
-#overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+.grid__box:hover {
+	box-shadow: 3px 3px 6px var(--box-shadow-dark),
+		-3px -3px 6px var(--box-shadow-light);
 }
 
-#modal-window {
-  width: 150px;
-  height: 150px;
-  border: 1px solid black;
-  background-color: aliceblue;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 10px;
+/* Кнопка сброса счета */
+.btn {
+	background: var(--primary-color);
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 20px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background 0.2s;
 }
 
-#bin-close {
-  width: 150px;
-  height: 20px;
-  background-color: darksalmon;
-  color: rgb(248, 248, 248);
-  text-align: center;
-  cursor: pointer;
-  border-radius: 10px;
+.btn:hover {
+	background: var(--secondary-color);
+}
 
+/* Модальное окно */
+.modal {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: var(--bg-color);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+	.game-board {
+		width: 270px;
+	}
+
+	.grid__box {
+		width: 80px;
+		height: 80px;
+	}
+
+	.page__title {
+		font-size: 24px;
+	}
+}
+
+.win {
+	background-color: rgba(0, 255, 0, 0.5); /* Подсветка зелёным */
+	text-decoration: line-through; /* Зачёркивание */
 }
