@@ -8,6 +8,20 @@ const binClose = document.getElementById('bin-close')
 const scoreX = document.getElementById('score-x')
 const scoreO = document.getElementById('score-o')
 const resetButton = document.getElementById('reset-scores')
+const resetAchievementsButton = document.getElementById('reset-achievements')
+
+const achievementX = document.getElementById('achievement-x')
+const achievementO = document.getElementById('achievement-o')
+const achievementDraw = document.getElementById('achievement-draw')
+const achievementXProgress = document.getElementById('achievement-x-progress')
+const achievementOProgress = document.getElementById('achievement-o-progress')
+const achievementDrawProgress = document.getElementById(
+	'achievement-draw-progress'
+)
+const nextAchievementX = document.getElementById('next-achievement-x')
+const nextAchievementO = document.getElementById('next-achievement-o')
+const nextAchievementDraw = document.getElementById('next-achievement-draw')
+const achievementSound = document.getElementById('achievement-sound')
 
 let countX = localStorage.getItem('countX')
 	? parseInt(localStorage.getItem('countX'))
@@ -15,13 +29,34 @@ let countX = localStorage.getItem('countX')
 let countO = localStorage.getItem('countO')
 	? parseInt(localStorage.getItem('countO'))
 	: 0
+let countDraws = localStorage.getItem('countDraws')
+	? parseInt(localStorage.getItem('countDraws'))
+	: 0
+let achievementsX = localStorage.getItem('achievementsX')
+	? parseInt(localStorage.getItem('achievementsX'))
+	: 0
+let achievementsO = localStorage.getItem('achievementsO')
+	? parseInt(localStorage.getItem('achievementsO'))
+	: 0
+let achievementsDraw = localStorage.getItem('achievementsDraw')
+	? parseInt(localStorage.getItem('achievementsDraw'))
+	: 0
 
 scoreX.innerText = countX
 scoreO.innerText = countO
+nextAchievementX.innerText = (achievementsX + 1) * 5
+nextAchievementO.innerText = (achievementsO + 1) * 5
+nextAchievementDraw.innerText = (achievementsDraw + 1) * 5
 
 area.addEventListener('click', e => {
 	if (e.target.className.includes('grid__box') && e.target.innerHTML === '') {
-		move % 2 === 0 ? (e.target.innerHTML = 'X') : (e.target.innerHTML = '0')
+		if (move % 2 === 0) {
+			e.target.innerHTML = 'X'
+			e.target.classList.add('x') // Добавляем класс для крестиков
+		} else {
+			e.target.innerHTML = 'O'
+			e.target.classList.add('o') // Добавляем класс для ноликов
+		}
 		move++
 		check()
 	}
@@ -52,11 +87,12 @@ const check = () => {
 			highlightWinner(arr[i])
 			prepareResult(result)
 			updateScore()
+			updateAchievements()
 			return
 		} else if (
-			boxes[arr[i][0]].innerHTML === '0' &&
-			boxes[arr[i][1]].innerHTML === '0' &&
-			boxes[arr[i][2]].innerHTML === '0'
+			boxes[arr[i][0]].innerHTML === 'O' && // Исправляем здесь
+			boxes[arr[i][1]].innerHTML === 'O' &&
+			boxes[arr[i][2]].innerHTML === 'O'
 		) {
 			result = 'нолики'
 			countO++
@@ -64,6 +100,7 @@ const check = () => {
 			highlightWinner(arr[i])
 			prepareResult(result)
 			updateScore()
+			updateAchievements()
 			return
 		}
 	}
@@ -74,7 +111,10 @@ const check = () => {
 	}
 	if (draw) {
 		result = 'ничья'
+		countDraws++
+		localStorage.setItem('countDraws', countDraws)
 		prepareResult(result)
+		updateAchievements()
 	}
 }
 
@@ -85,7 +125,16 @@ const highlightWinner = winningCells => {
 }
 
 const prepareResult = winner => {
-	contentWrapper.innerHTML = `Победили ${winner} !`
+	if (winner === 'крестики') {
+		contentWrapper.innerHTML = `Победили ${winner} !`
+		contentWrapper.style.color = '#007bff' /* Голубой цвет */
+	} else if (winner === 'нолики') {
+		contentWrapper.innerHTML = `Победили ${winner} !`
+		contentWrapper.style.color = '#ff6b6b' /* Оранжевый цвет */
+	} else {
+		contentWrapper.innerHTML = 'Ничья!'
+		contentWrapper.style.color = '#333' /* Цвет текста по умолчанию */
+	}
 	modalResult.style.display = 'block'
 }
 
@@ -94,23 +143,86 @@ const updateScore = () => {
 	scoreO.innerText = countO
 }
 
+const updateAchievements = () => {
+	const nextMilestoneX = (achievementsX + 1) * 5
+	const nextMilestoneO = (achievementsO + 1) * 5
+	const nextMilestoneDraw = (achievementsDraw + 1) * 5
+
+	achievementXProgress.innerText = `${
+		countX % nextMilestoneX
+	}/${nextMilestoneX}`
+	achievementOProgress.innerText = `${
+		countO % nextMilestoneO
+	}/${nextMilestoneO}`
+	achievementDrawProgress.innerText = `${
+		countDraws % nextMilestoneDraw
+	}/${nextMilestoneDraw}`
+
+	nextAchievementX.innerText = nextMilestoneX
+	nextAchievementO.innerText = nextMilestoneO
+	nextAchievementDraw.innerText = nextMilestoneDraw
+
+	if (countX >= nextMilestoneX) {
+		achievementsX++
+		localStorage.setItem('achievementsX', achievementsX)
+		achievementX.classList.add('gold')
+		achievementX.querySelector('.achievement-img').src = './img/img X.jpg'
+		achievementX.querySelector('.achievement-img').alt = 'Супер Крестик'
+		achievementX.innerHTML += `<p>Супер Крестик: ${achievementsX} ачивка(и)</p>`
+		achievementSound.play()
+	}
+	if (countO >= nextMilestoneO) {
+		achievementsO++
+		localStorage.setItem('achievementsO', achievementsO)
+		achievementO.classList.add('gold')
+		achievementO.querySelector('.achievement-img').src = './img/img O.png'
+		achievementO.querySelector('.achievement-img').alt = 'Супер Нолик'
+		achievementO.innerHTML += `<p>Супер Нолик: ${achievementsO} ачивка(и)</п>`
+		achievementSound.play()
+	}
+	if (countDraws >= nextMilestoneDraw) {
+		achievementsDraw++
+		localStorage.setItem('achievementsDraw', achievementsDraw)
+		achievementDraw.classList.add('gold')
+		achievementDraw.querySelector('.achievement-img').src = './img/image.png'
+		achievementDraw.querySelector('.achievement-img').alt = 'Супер Ничья'
+		achievementDraw.innerHTML += `<p>Супер Ничья: ${achievementsDraw} ачивка(и)</п>`
+		achievementSound.play()
+	}
+}
+
 const closeModal = () => {
 	modalResult.style.display = 'none'
 	location.reload()
 }
 
 const resetScores = () => {
-	localStorage.setItem('countX', 0)
-	localStorage.setItem('countO', 0)
 	countX = 0
 	countO = 0
+	countDraws = 0
+	localStorage.setItem('countX', countX)
+	localStorage.setItem('countO', countO)
+	localStorage.setItem('countDraws', countDraws)
 	updateScore()
+	updateAchievements() // Добавляем, чтобы обновить состояние после сброса
+}
+
+const resetAchievements = () => {
+	localStorage.setItem('achievementsX', 0)
+	localStorage.setItem('achievementsO', 0)
+	localStorage.setItem('achievementsDraw', 0)
+	achievementsX = 0
+	achievementsO = 0
+	achievementsDraw = 0
+	updateAchievements()
 }
 
 overlay.addEventListener('click', closeModal)
 binClose.addEventListener('click', closeModal)
 resetButton.addEventListener('click', resetScores)
+resetAchievementsButton.addEventListener('click', resetAchievements)
 
 document.addEventListener('DOMContentLoaded', () => {
 	updateScore()
+	updateAchievements()
 })

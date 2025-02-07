@@ -28,6 +28,7 @@
 				<div class="grid__box"></div>
 			</div>
 			<button id="reset-scores" class="btn">Сбросить счет</button>
+			<button id="reset-achievements" class="btn">Сбросить ачивки</button>
 		</div>
 
 		<div id="modal-result-wrapper" class="modal">
@@ -36,6 +37,31 @@
 				<div id="content" class="modal__content">content</div>
 				<button id="bin-close" class="btn">Начать заново</button>
 			</div>
+		</div>
+
+		<div class="achievements">
+			<h2>Ачивки</h2>
+			<div class="achievement" id="achievement-x">
+				<p>Крестики: <span id="achievement-x-progress">0/5</span></p>
+				<img src="./img/img X.jpg" alt="Крестики" class="achievement-img" />
+			</div>
+			<div class="achievement" id="achievement-o">
+				<p>Нолики: <span id="achievement-o-progress">0/5</span></p>
+				<img src="./img/img O.png" alt="Нолики" class="achievement-img" />
+			</div>
+			<div class="achievement" id="achievement-draw">
+				<p>Ничья: <span id="achievement-draw-progress">0/5</span></p>
+				<img src="./img/image.png" alt="Ничья" class="achievement-img" />
+			</div>
+		</div>
+
+		<audio id="achievement-sound" src="./audio/collect-points.mp3"></audio>
+
+		<div class="next-achievements">
+			<h3>Следующие ачивки</h3>
+			<p>Крестики: <span id="next-achievement-x">5</span></p>
+			<p>Нолики: <span id="next-achievement-o">5</span></p>
+			<p>Ничья: <span id="next-achievement-draw">5</span></p>
 		</div>
 
 		<script src="index.js"></script>

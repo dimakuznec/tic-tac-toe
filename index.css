@@ -6,6 +6,7 @@
 	--box-shadow-dark: rgba(0, 0, 0, 0.1);
 	--primary-color: #007bff;
 	--secondary-color: #ff6b6b;
+	--gold-color: #ffd700;
 	--text-color: #333;
 }
 
@@ -34,7 +35,6 @@ body {
 	text-shadow: 2px 2px 4px var(--box-shadow-dark);
 }
 
-/* Счетчик очков */
 .scoreboard {
 	display: flex;
 	justify-content: space-around;
@@ -54,7 +54,6 @@ body {
 	color: var(--text-color);
 }
 
-/* Контейнер для игры */
 .game-container {
 	display: flex;
 	flex-direction: column;
@@ -62,7 +61,6 @@ body {
 	gap: 15px;
 }
 
-/* Поле 3x3 */
 .game-board {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -91,7 +89,6 @@ body {
 		-3px -3px 6px var(--box-shadow-light);
 }
 
-/* Кнопка сброса счета */
 .btn {
 	background: var(--primary-color);
 	color: white;
@@ -107,7 +104,6 @@ body {
 	background: var(--secondary-color);
 }
 
-/* Модальное окно */
 .modal {
 	display: none;
 	position: fixed;
@@ -122,7 +118,44 @@ body {
 	text-align: center;
 }
 
-/* Адаптивность */
+.achievements {
+	margin-top: 20px;
+	padding: 10px;
+	background: var(--bg-color);
+	border-radius: 12px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.achievement {
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 3px 3px 6px var(--box-shadow-dark),
+		-3px -3px 6px var(--box-shadow-light);
+	background-color: var(--bg-color);
+	width: 200px;
+	text-align: center;
+	transition: all 0.2s ease-in-out;
+}
+
+.achievement.gold {
+	background-color: var(--gold-color);
+}
+
+.achievement-img {
+	width: 50px;
+	height: 50px;
+	display: none;
+}
+
+.achievement.gold .achievement-img {
+	display: block;
+}
+
 @media (max-width: 400px) {
 	.game-board {
 		width: 270px;
@@ -141,4 +174,83 @@ body {
 .win {
 	background-color: rgba(0, 255, 0, 0.5); /* Подсветка зелёным */
 	text-decoration: line-through; /* Зачёркивание */
+}
+
+.achievements {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	padding: 10px;
+	background: var(--bg-color);
+	border-radius: 12px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 200px;
+}
+
+.next-achievements {
+	position: absolute;
+	top: 300px;
+	right: 20px;
+	padding: 10px;
+	background: var(--bg-color);
+	border-radius: 12px;
+	box-shadow: 6px 6px 12px var(--box-shadow-dark),
+		-6px -6px 12px var(--box-shadow-light);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 200px;
+}
+
+.achievement {
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 3px 3px 6px var(--box-shadow-dark),
+		-3px -3px 6px var(--box-shadow-light);
+	background-color: var(--bg-color);
+	width: 100%;
+	text-align: center;
+	transition: all 0.2s ease-in-out;
+}
+
+.achievement.gold {
+	background-color: var(--gold-color);
+}
+
+.achievement-img {
+	width: 50px;
+	height: 50px;
+	display: none;
+}
+
+.achievement.gold .achievement-img {
+	display: block;
+}
+.grid__box.x {
+	color: #007bff; /* Голубой для крестиков */
+	border-radius: 25%; /* Закругляем края крестиков */
+}
+
+.grid__box.o {
+	color: #ff6b6b; /* Оранжевый для ноликов */
+	border-radius: 50%; /* Делаем нолики круглыми */
+}
+
+.grid__box.x,
+.grid__box.o {
+	transition: all 0.5s ease-in-out; /* Анимация */
+}
+
+@media (max-width: 768px) {
+	.achievements,
+	.next-achievements {
+		position: static;
+		width: 100%;
+		margin-top: 20px;
+	}
 }
