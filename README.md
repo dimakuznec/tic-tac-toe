@@ -19,7 +19,7 @@
 1. Убедитесь, что у вас установлен Git. Если нет, скачайте и установите Git [здесь](https://git-scm.com/download/win).
 2. Откройте командную строку (cmd) или PowerShell.
 3. Клонируйте репозиторий:
-      git clone git@github.com:dimakuznec/tic-tac-toe.git
+      git clone https://github.com/dimakuznec/tic-tac-toe
    
 
 ## Демонстрация
